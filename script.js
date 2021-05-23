@@ -42,11 +42,7 @@ function isOperandsValid(str) {
 }
 
 function isEvenNumberValid(num) {
-    return (
-        !isNaN(num) &&
-        ((num % 2) === 0) &&
-        (num !== '') 
-    );
+    return ((num % 2) === 0) && (num !== '');
 }
 
 function calculate(sign, numbers) {

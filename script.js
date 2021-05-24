@@ -20,21 +20,15 @@ function isEmptyStr(str) {
 }
 
 function getOperator(str) {
-    let index = '';
-
     if (str.indexOf('+') >= 0) {
-        index = str.indexOf('+');
+        return ('+');
     } else if (str.indexOf('-') >= 0) {
-        index = str.indexOf('-');
+        return ('-');
     } else if (str.indexOf('*') >= 0) {
-        index = str.indexOf('*');
+        return ('*');
     } else if (str.indexOf('/') >= 0) {
-        index = str.indexOf('/');
+        return ('/');
     }
-
-    const operator = str[index];
-
-    return operator;
 }
 
 function getOperands(str, sign) {

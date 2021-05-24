@@ -1,8 +1,7 @@
 const operator = getOperator();
 const operands = getOperands();
-const result = showResult(operator, operands);
 
-console.log(result);
+showResult(operator, operands);
 
 function getOperator() {
     let sign = '';
@@ -30,7 +29,7 @@ function getOperands() {
         answer = prompt(`Enter the operands separated by commas`);
     } while (!isOperandsValid(answer));
 
-    let arrayOperands = answer.split(',');
+    const arrayOperands = answer.split(',');
 
     const operands = arrayOperands.filter((item) => isEvenNumberValid(item)).map((item) => Number(item));
 
@@ -63,5 +62,5 @@ function showResult(sign, numbers) {
 
     const expression = numbers.reduce((acc, num) => `${acc} ${sign} ${num}`);
 
-    return (`${expression} = ${result}`);
+    return console.log(`${expression} = ${result}`);
 }

@@ -1,43 +1,48 @@
-const operator = getOperator();
-const operands = getOperands();
+'use strict';
 
+const answerExpression = getAnswerExpression();
+const operator = getOperator(answerExpression);
+const operands = getOperands(answerExpression, operator);
 showResult(operator, operands);
 
-function getOperator() {
-    let sign = '';
-
-    do {
-        sign = prompt('Enter the operator');
-    } while (!isOperatorValid(sign));
-
-    return sign;
-}
-
-function isOperatorValid(sign) {
-    return (
-        (sign === '+') ||
-        (sign === '-') ||
-        (sign === '*') ||
-        (sign === '/')
-    );
-}
-
-function getOperands() {
+function getAnswerExpression() {
     let answer = '';
 
     do {
-        answer = prompt(`Enter the operands separated by commas`);
-    } while (!isOperandsValid(answer));
+        answer = prompt(`Enter the expression`);
+    } while (isEmptyStr(answer));
 
-    const arrayOperands = answer.split(',');
-
-    const operands = arrayOperands.filter((item) => isEvenNumberValid(item)).map((item) => Number(item));
-
-    return operands;
+    return answer;
 }
 
-function isOperandsValid(str) {
-    return (str !== null && str !== '');
+function isEmptyStr(str) {
+    return (str === '' || str === null);
+}
+
+function getOperator(str) {
+    let index = '';
+
+    if (str.indexOf('+') >= 0) {
+        index = str.indexOf('+');
+    } else if (str.indexOf('-') >= 0) {
+        index = str.indexOf('-');
+    } else if (str.indexOf('*') >= 0) {
+        index = str.indexOf('*');
+    } else if (str.indexOf('/') >= 0) {
+        index = str.indexOf('/');
+    }
+
+    const operator = str[index];
+
+    return operator;
+}
+
+function getOperands(str, sign) {
+    const array = str.split(sign);
+
+    const operands = array.filter((item) => isEvenNumberValid(item)).map((item) => Number(item));
+
+    return operands;
 }
 
 function isEvenNumberValid(num) {

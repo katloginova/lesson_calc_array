@@ -1,9 +1,22 @@
 'use strict';
 
-const answerExpression = getAnswerExpression();
-const operator = getOperator(answerExpression);
-const operands = getOperands(answerExpression, operator);
-showResult(operator, operands);
+const VALUES_OPERATOR = ['+', '-', '*', '/'];
+
+const actions = {
+    '+': (values) => values.reduce((a, b) => (a + b)),
+    '-': (values) => values.reduce((a, b) => (a - b)),
+    '*': (values) => values.reduce((a, b) => (a * b)),
+    '/': (values) => values.reduce((a, b) => (a / b)),
+    default: () => alert('Action is invalid'),
+};
+
+function getAction(operator) {
+    if (actions[operator]) {
+        return actions[operator];
+    } else {
+        return actions.default;
+    }
+}
 
 function getAnswerExpression() {
     let answer = '';
@@ -19,47 +32,34 @@ function isEmptyStr(str) {
     return (str === '' || str === null);
 }
 
-function getOperator(str) {
-    if (str.indexOf('+') >= 0) {
-        return ('+');
-    } else if (str.indexOf('-') >= 0) {
-        return ('-');
-    } else if (str.indexOf('*') >= 0) {
-        return ('*');
-    } else if (str.indexOf('/') >= 0) {
-        return ('/');
-    }
+function getOperator(expression) {
+    return VALUES_OPERATOR.find((operator) => (expression.indexOf(operator) >= 0));
 }
 
 function getOperands(str, sign) {
-    const array = str.split(sign);
-
-    const operands = array.filter((item) => isEvenNumberValid(item)).map((item) => Number(item));
-
-    return operands;
+    return str.split(sign)
+            .filter((item) => isEvenNumberValid(item))
+            .map(Number);
 }
 
 function isEvenNumberValid(num) {
     return ((num % 2) === 0) && (num !== '');
 }
 
-function calculate(sign, numbers) {
-    switch (sign) {
-        case '+':
-            return numbers.reduce((acc, num) => (acc + num));
-        case '-':
-            return numbers.reduce((acc, num) => (acc - num));
-        case '*':
-            return numbers.reduce((acc, num) => (acc * num));
-        case '/':
-            return numbers.reduce((acc, num) => (acc / num));
-    }
+function calculate(operator, values) {
+    const action = getAction(operator);
+
+    return action(values);
 }
 
-function showResult(sign, numbers) {
-    const result = calculate(sign, numbers);
-
-    const expression = numbers.reduce((acc, num) => `${acc} ${sign} ${num}`);
-
-    return console.log(`${expression} = ${result}`);
+function showResult(operator, values, result) {
+    return console.log(`${values.join(` ${operator} `)} = ${result}`);
 }
+
+
+const answerExpression = getAnswerExpression();
+const operator = getOperator(answerExpression);
+const operands = getOperands(answerExpression, operator);
+const result = calculate(operator, operands);
+
+showResult(operator, operands, result);
